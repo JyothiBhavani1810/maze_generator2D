@@ -44,7 +44,29 @@ public class Graph{
     public boolean hasEdge(int u, int v){
         return this.graph.get(u).contains(v);
     }
+public List<Integer> getPath(int start, int end) {
+    List<Integer> path = new ArrayList<>();
+    boolean[] visited = new boolean[this.numNodes];
+    dfs(start, end, visited, path);
+    return path;
+}
 
+private boolean dfs(int node, int end, boolean[] visited, List<Integer> path) {
+    if (node == end) {
+        path.add(node);
+        return true;
+    }
+    visited[node] = true;
+    for (int neighbor : this.graph.get(node)) {
+        if (!visited[neighbor]) {
+            if (dfs(neighbor, end, visited, path)) {
+                path.add(node);
+                return true;
+            }
+        }
+    }
+    return false;
+}
     public Graph getSpanningTree(int start){
         Graph spanningTree = new Graph(this.numNodes);
         ArrayList<Integer> stack = new ArrayList<Integer>();
